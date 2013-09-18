@@ -37,6 +37,9 @@ function GameOfLife(divid, rows, cols, sqSize, delay) {
     });
 
     this.set.click(function() {
+        if (that.running && !that.paused)
+            return;
+
         var cell = that.gen.getCell(this.data("row"), this.data("col"));
         var color = null;
         if (cell.isLive)
@@ -62,6 +65,7 @@ GameOfLife.prototype.run = function () {
 GameOfLife.prototype.stop = function () {
     if (this.running) {
         clearInterval(this.intervalId);
+        this.gen = new Generation(this.gen.rows, this.gen.cols);
         this.running = false;
         this.set.attr("fill", DEATH_COLOR);
     }
@@ -81,7 +85,7 @@ GameOfLife.prototype.tick = function () {
 };
 
 window.onload = function () {
-    var game = new GameOfLife("holder", 30, 60, 15, 500);
+    var game = new GameOfLife("holder", 30, 60, 15, 200);
     var startButton = document.getElementById("startButton");
 
     var startFn = function () {
