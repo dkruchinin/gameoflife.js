@@ -1,4 +1,4 @@
-/*
+    /*
  * A class that describes a unique cell of
  * of the game of life.
  */
@@ -84,6 +84,12 @@ function Generation(rows, cols) {
     this.population = this.newPopulation();
     return this;
 }
+
+Generation.prototype.reset = function () {
+    this.population.forEach(function (cell) {
+        cell.isLive = false;
+    });
+};
 
 Generation.prototype.getCell = function (row, col) {
     return this.population[row * this.cols + col];
